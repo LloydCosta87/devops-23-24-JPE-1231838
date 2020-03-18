@@ -11,7 +11,7 @@ Prerequisites
 
  * Java JDK 8
  * Apache Log4J 2
- * Gradle 5 (if you do not use the gradle wrapper in the project)
+ * Gradle 6.6 (if you do not use the gradle wrapper in the project)
    
 
 Build
