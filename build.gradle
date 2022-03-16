@@ -1,8 +1,3 @@
-/*
- * For more details take a look at the Java Quickstart chapter in the Gradle
- * User Manual available at https://docs.gradle.org/5.2.1/userguide/tutorial_java_projects.html
- */
-
 plugins {
     // Apply the java plugin to add support for Java
     id 'java'
@@ -53,7 +48,7 @@ task runClient(type:JavaExec, dependsOn: classes){
   
     classpath = sourceSets.main.runtimeClasspath
 
-    main = 'basic_demo.ChatClientApp'
+    mainClass = 'basic_demo.ChatClientApp'
 
     args 'localhost', '59001'
 }
