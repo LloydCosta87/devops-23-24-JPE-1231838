@@ -9,9 +9,9 @@ The server supports several simultaneous clients through multithreading. When a 
 Prerequisites
 -------------
 
- * Java JDK 8
+ * Java JDK 8 (or newer)
  * Apache Log4J 2
- * Gradle 6.6 (if you do not use the gradle wrapper in the project)
+ * Gradle 7.4.1 (if you do not use the gradle wrapper in the project)
    
 
 Build
