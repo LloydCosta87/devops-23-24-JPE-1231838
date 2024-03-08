@@ -42,6 +42,9 @@ public class Employee {
 		this.lastName = lastName;
 		this.description = description;
 		this.jobYears = jobYears;
+		if (email == null || email.isEmpty()) {
+			throw new IllegalArgumentException("Email cannot be null or empty");
+		}
 		this.email = email;
 	}
 

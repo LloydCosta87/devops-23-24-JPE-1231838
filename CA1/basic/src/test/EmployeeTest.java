@@ -41,5 +41,25 @@ public class EmployeeTest {
         //Assert
         assertEquals("email@email.com", email);
     }
+    @Test
+    public void testEmployeeEmailNull() {
+        //Arrange
+        Employee employee = new Employee("Frodo", "Baggins", "ring bearer", 4, null);
+        //Act
+        //Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            employee.getEmail();
+        });
+    }
+    @Test
+    public void testEmployeeEmailEmpty() {
+        //Arrange
+        Employee employee = new Employee("Frodo", "Baggins", "ring bearer", 4, "");
+        //Act
+        //Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            employee.getEmail();
+        });
+    }
 
 }
