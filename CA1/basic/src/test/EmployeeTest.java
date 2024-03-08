@@ -32,4 +32,14 @@ public class EmployeeTest {
         assertEquals(4, jobYears);
     }
 
+    @Test
+    public void testEmployeeEmail() {
+        //Arrange
+        Employee employee = new Employee("Frodo", "Baggins", "ring bearer", 4, "email@email.com");
+        //Act
+        String email = employee.getEmail();
+        //Assert
+        assertEquals("email@email.com", email);
+    }
+
 }
