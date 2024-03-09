@@ -5,6 +5,20 @@
 
 This report outlines the process of managing a software project using Git, detailing the creation of a GitHub repository, initial setup, and the development of new features following a structured version control system.
 
+### Working with GitHub Issues
+
+GitHub Issues is a feature that allows you to track and manage tasks, enhancements, and bugs in your projects. It's considered a best practice to utilize GitHub Issues for organizing work and keeping track of project progress.
+
+### Creating and Linking Issues to Commits
+
+1. **Creating Issues:** It's a good practice to create an issue for any new feature, bug fix, or enhancement. This helps in documenting the need or problem and facilitates discussion.
+
+2. **Marking Commits with Issues:** When making a commit that addresses an issue, it's helpful to reference the issue number in the commit message. This can be done by including the issue number prefixed with a hash symbol (#) and a brief description of the commit. For example:
+   
+   ```bash
+   git commit -m "#1 - First commit addressing the issue"
+
+
 ## Initial Setup
 
 To start, create a new repository on GitHub and initialize it locally:
