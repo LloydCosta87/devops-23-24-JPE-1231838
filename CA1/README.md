@@ -46,9 +46,9 @@ To start, create a new repository on GitHub and initialize it locally:
    ```
    Pushes the commit to GitHub, setting `main` as the upstream branch.
 
-## Task 1: Managing the Master Branch
+## Task 1: Managing the Main Branch
 
-Using only the `master` branch, the following steps were undertaken:
+Using only the `main` branch, the following steps were undertaken:
 
 1. **Copy Tutorial Code:**
    ```bash
