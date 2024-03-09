@@ -74,7 +74,7 @@ Setting up a `.gitignore` file before starting any development work is crucial f
 
 5. **Workflow Customization:** Allows tailoring to the specific needs of your project and development environment by excluding files relevant to your workflow.
 
-#### Setting Up `.gitignore`
+### Setting Up `.gitignore`
 
 1. **Create the File:** At the root of your Git repository, create a `.gitignore` file.
 2. **Define Patterns:** Add patterns to specify which files and directories should be ignored (e.g., `*.log`, `build/`, `.env`).
@@ -83,9 +83,10 @@ Setting up a `.gitignore` file before starting any development work is crucial f
 ```bash
 git add .gitignore
 git commit -m "Add .gitignore file"
+```
 
 
-### Task 1: Managing the Main Branch
+## Task 1: Managing the Main Branch
 
 Using only the `main` branch, the following steps were undertaken:
 
@@ -161,16 +162,24 @@ This scenario illustrates a simple Git workflow for managing stable versions and
    - After adding support for the email field and implementing unit tests:
      ```bash
      git add .
-     git commit -m "Add email field feature and unit tests"
+     git commit -m "(#number of the issue) Add email field feature and unit tests"
      ```
    - Merge the new feature into the master branch and tag it:
      ```bash
      git checkout main
      git merge email-field
-     git tag -a v1.3.0 -m "Add email field feature"
+     git tag v1.3.0
      git push origin main
      git push origin v1.3.0
      ```
+     To see how many branches exist in your local Git repository, you can use the following command:
+       ```bash
+       git branch
+        ```
+       This command lists all the local branches in your repository. If you want to see both local and remote branches, you can use:
+         ```bash
+        git branch -a
+        ```
 
 3. **Create branches for fixing bugs:**
    - Create a branch named `fix-invalid-email`:
