@@ -38,7 +38,7 @@ To start, create a new repository on GitHub and initialize it locally:
 3. **Stage and Commit the README.md:**
    ```bash
    git add README.md
-   git commit -m "first commit"
+   git commit -m "#1 first commit"
    ```
    Stages the `README.md` file and commits it with a message.
 
@@ -73,14 +73,14 @@ Using only the `main` branch, the following steps were undertaken:
 2. **Commit and Push Initial Code:**
    ```bash
    git add .
-   git commit -m "Initial project setup"
+   git commit -m "(#number of the issue) Initial project setup"
    git push origin main
    ```
    Adds all files to staging, commits them to the repository, and pushes to the `main` branch on GitHub.
 
 3. **Tagging Initial Version:**
    ```bash
-   git tag -a v1.1.0 -m "Initial version"
+   git tag v1.1.0 
    git push origin v1.1.0
    ```
    Tags the initial version of the application and pushes the tag to GitHub.
@@ -89,21 +89,21 @@ Using only the `main` branch, the following steps were undertaken:
    After developing a new feature (e.g., adding a `jobYears` field), and testing it thoroughly:
    ```bash
    git add .
-   git commit -m "Added jobYears field"
+   git commit -m "(#number of the issue) Added jobYears field"
    git push origin main
    ```
    Stages the changes, commits them with a descriptive message, and pushes to the main branch.
 
 5. **Tagging Feature Release:**
    ```bash
-   git tag -a v1.2.0 -m "Added new feature: jobYears"
+   git tag -a v1.2.0 -m "(#number of the issue) Added new feature: jobYears"
    git push origin v1.2.0
    ```
    Tags the new feature release and pushes the tag to GitHub.
 
 6. **Marking Assignment Completion:**
    ```bash
-   git tag -a ca1-part1 -m "Completion of Part 1"
+   git tag -a ca1-part1 -m "(#number of the issue) Completion of Part 1"
    git push origin ca1-part1
    ```
    Marks the completion of Part 1 of the assignment with a tag and pushes it to GitHub.
