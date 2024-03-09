@@ -11,7 +11,7 @@ To start, create a new repository on GitHub and initialize it locally:
 
 1. **Create README.md and Initialize Repository:**
    ```bash
-   echo "# Teste" >> README.md
+   echo "# devops-23-24-JPE-1231838" >> README.md
    ```
    This command creates a `README.md` file and adds a title to it.
 
@@ -36,7 +36,7 @@ To start, create a new repository on GitHub and initialize it locally:
 
 5. **Add Remote Repository:**
    ```bash
-   git remote add origin git@github.com:LloydCosta87/Teste.git
+   git remote add origin git@github.com:LloydCosta87/devops-23-24-JPE-1231838.git
    ```
    Links your local repository with the remote GitHub repository.
 
