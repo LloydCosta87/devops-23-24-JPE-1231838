@@ -208,5 +208,56 @@ This scenario illustrates a simple Git workflow for managing stable versions and
      ```
 
 
+# Alternative Version Control System: Mercurial
+
+For an alternative to Git, let's consider **Mercurial** as the version control system. Mercurial is a distributed version control system like Git, offering high performance and scalability. It's designed to handle projects of all sizes with a straightforward and intuitive command-line interface, making it accessible for both novice and advanced users.
+
+## Comparing Mercurial to Git
+
+1. **Ease of Use:** Mercurial's commands and workflow are considered simpler and more intuitive than Git's, making it easier for beginners to learn and use.
+
+2. **Performance:** Both Git and Mercurial are designed to handle very large projects efficiently, but the performance can vary depending on the specific operations and the size and nature of the project.
+
+3. **Branching:** Mercurial treats branches more immutably than Git. In Mercurial, branches are a permanent part of the commit history, whereas Git branches are more flexible and transient.
+
+4. **Extensions:** Mercurial has a robust extension system, allowing users to customize and enhance their workflow.
+
+5. **Windows Support:** While both version control systems work on multiple platforms, Mercurial's Windows support is often considered to be more robust out of the box compared to Git.
+
+## Using Mercurial for the Assignment
+
+To achieve the goals of this assignment using Mercurial, you would follow a workflow similar to the Git-based workflow but with Mercurial commands. Here's how you could handle the tasks:
+
+1. **Initialize a Repository:**
+   - `hg init`: Initializes a new Mercurial repository in the current directory.
+
+2. **Add Files and Commit Changes:**
+   - `hg add`: Adds files to the staging area (similar to `git add`).
+   - `hg commit -m "Message"`: Commits the staged changes to the repository with a commit message.
+
+3. **Create and Manage Branches:**
+   - `hg branch branch-name`: Creates a new branch.
+   - `hg update branch-name`: Switches to the specified branch.
+   - When you commit changes, they are committed to the current branch.
+
+4. **Merge Branches:**
+   - `hg merge branch-name`: Merges the specified branch with the current branch.
+   - `hg commit -m "Merge branch"`: Commits the merge.
+
+5. **Tagging:**
+   - `hg tag tag-name`: Tags the current commit in the repository for future reference.
+
+6. **View Branches:**
+   - `hg branches`: Lists all branches in the repository.
+
+7. **Pushing Changes:**
+   - To push changes to a remote repository, you would first need to configure the remote repository (similar to Git), then use:
+   - `hg push`: Pushes your changes to the remote repository.
+
+8. **Cloning a Repository:**
+   - `hg clone repository-url`: Clones the repository from the given URL.
+
+Mercurial offers a straightforward version control workflow, making it an excellent alternative to Git. The simplicity in branching and committing, along with robust Windows support and an intuitive command set, can be particularly appealing for teams looking for an easy-to-adopt system or individuals new to version control.
+
 
 
