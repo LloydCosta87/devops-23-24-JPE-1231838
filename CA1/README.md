@@ -143,9 +143,7 @@ Using only the `main` branch, the following steps were undertaken:
 By following these steps, you can manage and version control a software project using Git, ensuring a structured and traceable development process.
 
 
-# Simple Git Workflow Scenario
-
-This scenario illustrates a simple Git workflow for managing stable versions and feature development.
+## Task 2: Managing Multiples Branchs
 
 1. **Use the master branch for stable versions:**
    - Ensure you're on the master branch and it's up to date.
@@ -206,6 +204,81 @@ This scenario illustrates a simple Git workflow for managing stable versions and
      git tag -a ca1-part2 -m "Completion of Part 2"
      git push origin ca1-part2
      ```
+
+## Important Git Commands Beyond the Basics
+
+Git offers a wide array of commands to manage projects effectively. Here's an overview of some additional important Git commands that can enhance a project management.
+
+### Removing Files and Directories
+
+1. **Remove a file from the working directory and stage the removal:**
+   ```bash
+   git rm example.txt
+   ```
+
+2. **Remove a file from version control but keep it locally:**
+   ```bash
+   git rm --cached secrets.txt
+   ```
+
+### Stashing Changes
+
+3. **Temporarily shelve changes:**
+   ```bash
+   git stash
+   ```
+
+4. **Apply stashed changes back to your working directory:**
+   ```bash
+   git stash pop
+   ```
+
+### Checking History and Changes
+
+5. **Display the commit history:**
+   ```bash
+   git log
+   ```
+
+6. **Show differences between working directory and index or commits:**
+   ```bash
+   git diff
+   ```
+
+### Reverting Changes
+
+7. **Reset index and working directory to a specific commit:**
+   ```bash
+   git reset --hard <commit>
+   ```
+   **Important Note: can lead to the loss of committed work if not used carefully. 
+     This command resets your working directory and staging area to match a previous commit, 
+     erasing all changes that came after the specified commit. If these changes were not backed up or pushed to a remote repository, they could be permanently lost.**
+
+
+8. **Revert the changes from a specific commit:**
+   ```bash
+   git revert <commit>
+   ```
+   **Important Note: While this preserves the project history, 
+     it can lead to merge conflicts if the reverted changes overlap with other changes made since the original commit.**
+
+### Managing Remotes
+
+9. **List all remote repositories configured:**
+   ```bash
+   git remote -v
+   ```
+
+10. **Create a local copy of a remote repository:**
+    ```bash
+    git clone https://github.com/user/project.git
+    ```
+
+These commands are crucial for managing various tasks in your development workflow and represent just a part of Git's capabilities.
+
+
+     
 
 
 # Alternative Version Control System: Mercurial
