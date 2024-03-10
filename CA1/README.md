@@ -110,8 +110,9 @@ Using only the `main` branch, the following steps were undertaken:
    git push origin v1.1.0
    ```
    Tags the initial version of the application and pushes the tag to GitHub.
+   Tags help maintain a version history of a project, making it easy to track changes, updates, and fixes over time.
 
-4. **Develop New Feature and Commit:**
+5. **Develop New Feature and Commit:**
    After developing a new feature (e.g., adding a `jobYears` field), and testing it thoroughly:
    ```bash
    git add .
@@ -128,7 +129,7 @@ Using only the `main` branch, the following steps were undertaken:
 
 6. **Tagging Feature Release:**
    ```bash
-   git tag -a v1.2.0 -m "(#number of the issue) Added new feature: jobYears"
+   git tag v1.2.0
    git push origin v1.2.0
    ```
    Tags the new feature release and pushes the tag to GitHub.
