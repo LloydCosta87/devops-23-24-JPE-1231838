@@ -1,3 +1,19 @@
+<<<<<<< HEAD
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build/
+
+bin/
+.vscode/
+.idea/*
+*/.idea/*
+.DS_Store/
+.classpath
+.project
+.settings
+=======
 # Created by https://www.toptal.com/developers/gitignore/api/intellij
 # Edit at https://www.toptal.com/developers/gitignore?templates=intellij
 
@@ -115,3 +131,4 @@ fabric.properties
 .idea/**/azureSettings.xml
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij
+>>>>>>> origin/main
