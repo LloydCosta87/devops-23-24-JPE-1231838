@@ -42,3 +42,9 @@ task runServer(type: JavaExec) {
     args '59002'
     classpath = sourceSets.main.runtimeClasspath
 }
+
+task backupSources(type: Copy) {
+    description = 'Backs up the source files to a backup directory.'
+    from 'src' // specifies the source directory to copy from
+    into 'backup' // specifies the destination directory to copy to
+}
