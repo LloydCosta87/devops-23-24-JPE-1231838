@@ -63,4 +63,7 @@ task runServer(type: JavaExec) {
 
     classpath = sourceSets.main.runtimeClasspath
 }
+dependencies {
 
+    testImplementation 'junit:junit:4.12'
+}
