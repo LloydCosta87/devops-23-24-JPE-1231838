@@ -118,9 +118,9 @@ task zipSources(type: Zip) {
 
 In this task definition:
 
-archiveBaseName.set('application-sources') sets the base name of the generated ZIP file. We can customize 'application-sources' to whatever name we prefer for the ZIP file.
-destinationDirectory.set(file("$buildDir/archives")) specifies the destination directory where the ZIP file will be created. In this case, it uses the build/archives directory within the project's build directory, but we can adjust this path as needed.
-from 'src' indicates that the contents of the src directory should be included in the ZIP archive.
+`archiveBaseName.set('application-sources')` sets the base name of the generated ZIP file. We can customize 'application-sources' to whatever name we prefer for the ZIP file.
+`destinationDirectory.set(file("$buildDir/archives"))` specifies the destination directory where the ZIP file will be created. In this case, it uses the `build/archives` directory within the project's build directory, but we can adjust this path as needed.
+from `'src'` indicates that the contents of the src directory should be included in the ZIP archive.
 
 Run the task:
 ```bash
@@ -129,7 +129,7 @@ Run the task:
 
 After running this command, we'll find the ZIP file named `application-sources.zip` in the build/archives directory of the project
 
-## Code already in build.gradle
+## Understand the code already in build.gradle
 
 ```groovy
 plugins {
