@@ -25,7 +25,7 @@ Defines the project's source sets, organizing where Gradle should look for sourc
 
 These are just a few of the main elements that can be found in a build.gradle file, but the exact structure and elements present will vary greatly depending on the type of project, the technologies used, and the specific build needs. Gradle is a very flexible and powerful tool, allowing a wide range of customizations and configurations to automate virtually any aspect of the software development process.
 
-### 1. Understand Gradle Project Structure
+### Understand Gradle Project Structure
 
 A typical Gradle project structure includes:
 - **`build.gradle`**: The build configuration script.
@@ -34,46 +34,6 @@ A typical Gradle project structure includes:
 - **`src/main/java`**: Directory for Java source files.
 - **`src/test/java`**: Directory for test source files.
 
-### 2. Initialize a New Gradle Project
-
-Create a new Gradle project by running:
-```bash
-gradle init
-```
-
-### 3. Writing the Build Script (`build.gradle`)
-
-Configure your project in the `build.gradle` file, including dependencies, plugins, and tasks.
-
-### 4. Adding Dependencies
-
-Add project dependencies in the `build.gradle` file within the `dependencies` block. Example:
-```groovy
-dependencies {
-    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.2'
-}
-```
-
-### 5. Building an Project
-
-Build your project with:
-```bash
-gradle build
-```
-
-### 6. Running Your Application
-
-If using the `application` plugin, run your application with:
-```bash
-gradle run
-```
-
-### 7. Using the Gradle Wrapper
-
-Use the Gradle Wrapper to ensure consistent Gradle usage. Run tasks with `./gradlew` instead of `gradle`:
-```bash
-./gradlew build
-```
 
 # Start of the assignment
 
