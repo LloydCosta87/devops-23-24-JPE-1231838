@@ -129,6 +129,8 @@ Run the task:
 
 After running this command, we'll find the ZIP file named `application-sources.zip` in the build/archives directory of the project
 
+We avoid committing `.zip` files from the `build/ directory` to our GitHub repository for efficiency and best practices. Our `.gitignore` explicitly excludes the build/ directory to keep the repository focused on source code and essential configurations, not build artifacts which are easily regenerated. This approach helps maintain a clean repository, reduces the risk of merge conflicts and security issues, and encourages proper release management through GitHub Releases. Essentially, it ensures our repository is efficient, secure, and optimized for developer productivity.
+
 ## Understand the code already in build.gradle
 
 ```groovy
