@@ -47,3 +47,9 @@ task copyJarToDist(type: Copy) {
 
 build.finalizedBy(copyJarToDist)
 
+task cleanWebpack(type: Delete) {
+    delete 'src/main/resources/static/built'
+}
+
+clean.dependsOn cleanWebpack
+
