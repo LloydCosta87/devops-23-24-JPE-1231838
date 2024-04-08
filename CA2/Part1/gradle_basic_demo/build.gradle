@@ -1,5 +1,6 @@
 plugins {
     id 'application'
+    id "org.siouan.frontend-jdk17" version "8.0.0"
 }
 
 repositories {
@@ -55,3 +56,10 @@ task zipSources(type: Zip) {
 
     from 'src' // Specifies the source directory to include in the zip
 }
+
+frontend {
+     nodeVersion = "16.20.2"
+     assembleScript = "run build"
+    cleanScript = "run clean"
+     checkScript = "run check"
+    }
