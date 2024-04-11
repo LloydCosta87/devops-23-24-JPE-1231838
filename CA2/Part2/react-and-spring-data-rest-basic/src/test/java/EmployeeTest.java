@@ -13,13 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.greglturnquist.payroll;
 
-public class EmployeeTest {
+import com.greglturnquist.payroll.Employee;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+class EmployeeTest {
     @Test
-    public void testEmployee(){
+    void testEmployee(){
         //Arrange
-        Employee employee = new Employee("Frodo", "Baggins", "ring bearer", 4);
+        Employee employee = new Employee("Frodo", "Baggins", "ring bearer", 4,"email@email");
         //Act
         String firstName = employee.getFirstName();
         String lastName = employee.getLastName();
@@ -33,7 +38,7 @@ public class EmployeeTest {
     }
 
     @Test
-    public void testEmployeeEmail() {
+    void testEmployeeEmail() {
         //Arrange
         Employee employee = new Employee("Frodo", "Baggins", "ring bearer", 4, "email@email.com");
         //Act
@@ -42,24 +47,23 @@ public class EmployeeTest {
         assertEquals("email@email.com", email);
     }
     @Test
-    public void testEmployeeEmailNull() {
-        //Arrange
-        Employee employee = new Employee("Frodo", "Baggins", "ring bearer", 4, null);
-        //Act
-        //Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            employee.getEmail();
+    void testEmployeeConstructionWithNullEmailThrowsException() {
+        // Arrange + Act + Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new Employee("Frodo", "Baggins", "ring bearer", 4, null);
         });
+        String expectedMessage = "Email cannot be null or empty";
+        assertEquals(expectedMessage, exception.getMessage());
     }
+
     @Test
-    public void testEmployeeEmailEmpty() {
-        //Arrange
-        Employee employee = new Employee("Frodo", "Baggins", "ring bearer", 4, "");
-        //Act
-        //Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            employee.getEmail();
+    void testEmployeeEmailEmpty() {
+        // Arrange + Act + Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new Employee("Frodo", "Baggins", "ring bearer", 4, "");
         });
+        String expectedMessage = "Email cannot be null or empty";
+        assertEquals(expectedMessage, exception.getMessage());
     }
 
 }
