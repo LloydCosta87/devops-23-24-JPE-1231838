@@ -159,10 +159,30 @@ To run:
 ```bash
 bazel run //:your_application_name
 ```
+## Gradle vs bazel_comparison 
 
-## 6. Configure Frontend (if applicable)
+### Configuration and Usage Ease
 
-For projects with frontend components, additional rules like `rules_nodejs` may be needed to manage Node.js dependencies and frontend build tasks.
+- **Gradle:** Uses a syntax based on Groovy or Kotlin for build file configuration, which can be more intuitive for developers familiar with these languages. The integration with Spring Boot and the initial setup via https://start.spring.io make the initial process quite streamlined.
+- **Bazel:** Focuses on performance and scalability, using a dependency graph approach to optimize builds. The initial configuration and project setup can be more complex compared to Gradle, especially for Java Spring Boot projects, where configuring dependencies and plugins might not be as straightforward as in Gradle.
 
-Note that this configuration may vary according to the specifics of your project.
+### Dependency Management
+
+- **Gradle:** Offers robust and flexible dependency management, allowing easy integration with Maven and Ivy repositories. This is facilitated by the use of the `build.gradle` file, where dependencies are simply declared.
+- **Bazel:** Manages dependencies efficiently to ensure reproducible and fast builds. However, setting up external dependencies, like those of Spring Boot, might require more steps compared to Gradle, as each dependency and its transitives need to be explicitly defined in the WORKSPACE and BUILD files.
+
+### Extensibility
+
+- **Gradle:** Provides a wide range of plugins and the ability to easily create custom tasks, thanks to its flexible scripting language. This allows for great adaptability to different project needs, including frontend development, as demonstrated with the integration of the `org.siouan.frontend` plugin.
+- **Bazel:** While highly extensible and allowing for the creation of custom rules and macros, the learning curve for extending its functionality can be steeper. Integration with frontend tools or other specific tasks might not be as direct or well-documented as in the Gradle ecosystem.
+
+### Performance
+
+- **Gradle:** With the introduction of the Daemon and other optimizations, Gradle has significantly improved its performance over time. However, very large projects may still face challenges in terms of speed and efficiency.
+- **Bazel:** Stands out in performance, especially for large-scale projects, by reusing artifacts from previous builds and running tasks in parallel whenever possible. This significantly reduces build time compared to other tools.
+
+### Conclusion
+
+For Java projects, especially those using Spring Boot and involving considerable frontend development, **Gradle** may offer a more direct setup and a less steep learning curve, along with a wide range of available plugins. However, for large-scale projects that require performance optimization and highly reproducible builds, **Bazel** presents significant advantages, albeit with a more complex initial setup and a steeper learning curve.
+
 
