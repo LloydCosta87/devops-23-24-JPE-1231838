@@ -39,7 +39,6 @@ After filling in the details, generate the project and unzip it into the folder 
        id 'org.siouan.frontend-jdk17' version '8.0.0' 
    }
    ```
-   Visit [frontend-gradle-plugin](https://github.com/Siouan/frontend-gradle-plugin) for more details.
 
 2. **Configure the plugin in `build.gradle`**:
    ```groovy
@@ -116,35 +115,48 @@ This guide outlines the basic setup of a Java project using Bazel.
 
 ## 1. Initial Bazel Setup
 
-Ensure Bazel is installed on your system. Verify by running `bazel version` in the terminal.
+- Ensure Bazel is installed by running `bazel version` in the terminal.
+- Create an empty `WORKSPACE` file in the root directory of your project to designate the directory as a Bazel workspace.
 
 ## 2. Create Necessary Directory Structure and Files
 
-Create an empty `WORKSPACE` file in the root directory of your project.
+- Maintain the directory structure `src/main/java` for Java source code and `src/main/resources` for resources.
 
 ## 3. Configure Project Dependencies
 
-Add your external dependencies in the `WORKSPACE` file:
-
+- In the `WORKSPACE` file, add external dependencies using Maven repositories. Example:
+     ```
+     maven_install(
+         artifacts = [
+             "org.springframework.boot:spring-boot-starter-web",
+             "org.springframework.boot:spring-boot-starter-data-jpa",
+             "org.springframework.boot:spring-boot-starter-thymeleaf",
+             "com.h2database:h2"
+         ],
+         repositories = [
+             "https://maven.google.com",
+             "https://repo.maven.apache.org/maven2",
+         ],
+     )
+     ```
 
 ## 4. Configure Java Project Build
 
-In the directory of your Java source code, create a `BUILD` file:
-
-```python
-java_binary(
-    name = "your_application_name",
-    srcs = glob(["src/main/java/**/*.java"]),
-    deps = [
-        "@maven//:org_springframework_boot_spring_boot_starter_web",
-        "@maven//:org_springframework_boot_spring_boot_starter_data_jpa",
-        "@maven//:org_springframework_boot_spring_boot_starter_thymeleaf",
-        "@maven//:com_h2database_h2",
-        # Add other dependencies here
-    ],
-    main_class = "com.example.MainClass",
-)
-```
+- Create a `BUILD` file in the source code directory:
+     ```
+     java_binary(
+         name = "application_name",
+         srcs = glob(["src/main/java/**/*.java"]),
+         deps = [
+             "@maven//:org_springframework_boot_spring_boot_starter_web",
+             "@maven//:org_springframework_boot_spring_boot_starter_data_jpa",
+             "@maven//:org_springframework_boot_spring_boot_starter_thymeleaf",
+             "@maven//:com_h2database_h2",
+            
+         ],
+         main_class = "com.example.MainClass",
+     )
+     ```
 
 ## 5. Build and Execution
 
@@ -159,6 +171,7 @@ To run:
 ```bash
 bazel run //:your_application_name
 ```
+
 ## Gradle vs bazel_comparison 
 
 ### Configuration and Usage Ease
