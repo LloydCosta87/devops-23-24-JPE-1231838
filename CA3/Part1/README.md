@@ -1,40 +1,27 @@
-# 1) VM Installation Guide Using VirtualBox
+# 1) VM Installation Guide
 
-## 1. Check for Virtualization Support
-Ensure that virtualization technology (VT-x) is enabled in the BIOS settings of your Windows machine. You may need to access the BIOS to check and enable this setting.
+## Create a Host-Only Network
+- Go to **File** -> **Host Network Manager** and create a new host-only network by clicking the create button. This will allow you to name your host-only networks within your VM's network configuration.
 
-## 2. Download Software
-- Download and install VirtualBox from [VirtualBox.org](https://www.virtualbox.org/).
-- Download the Ubuntu Server LTS installation disk image (.iso file) from [Ubuntu's official website](https://ubuntu.com/download/server).
+## Set Up Networking Before Starting the VM
+- **Network Adapter 2** should be set as a Host-only Adapter (`vboxnet0`). Check the IP address range of this network (default is 192.168.56.1/24) and assign an IP within this range for your VM’s second adapter.
 
-## 3. Install VirtualBox
-Open the VirtualBox installer and follow the prompts to install VirtualBox on your Windows system.
+## Update and Configure the Network Post VM Start
+- After starting the VM, log in and update package repositories with `sudo apt update`.
+- Install network tools using `sudo apt install net-tools`.
+- Edit the network configuration file `/etc/netplan/01-netcfg.yaml` to set up the IP for the second adapter (e.g., 192.168.56.5).
 
-## 4. Create a New Virtual Machine
-- Launch VirtualBox, and click on "New" to create a new virtual machine.
-- Enter a name for the virtual machine, select "Linux" as the type, and "Ubuntu (64-bit)" as the version.
-- Set the memory size (RAM) and number of CPUs. Do not allocate more than half of your host's resources.
+## Install Utilities and Servers
+- Install `openssh-server` using `sudo apt install openssh-server` to enable SSH connections.
+- Configure SSH to allow password authentication by editing `/etc/ssh/sshd_config` and uncommenting `PasswordAuthentication yes`.
+- Restart SSH service with `sudo service ssh restart`.
+- Install an FTP server (`vsftpd`) using `sudo apt install vsftpd` and enable write access in the configuration.
 
-## 5. Configure Virtual Hard Disk
-- Choose to create a virtual hard disk now and select VDI (VirtualBox Disk Image) as the file type.
-- Set the storage on the physical hard disk as dynamically allocated, which allows the virtual hard disk to grow as needed.
-- Specify the maximum size of the virtual hard disk.
+## Access the VM Using SSH and FTP
+- You can now SSH into your VM using `ssh username@192.168.56.5`, replacing `username` with your VM's user name and `192.168.56.5` with the VM’s IP.
+- For FTP, use an application like FileZilla to transfer files to/from the VM using the FTP protocol.
 
-## 6. Start the Virtual Machine and Install Ubuntu
-- Select the created virtual machine and click on "Start".
-- When prompted, choose the Ubuntu .iso file you downloaded as the startup disk.
-- Follow the on-screen instructions to install Ubuntu. This includes choosing language, keyboard layout, and basic configuration settings.
-
-## 7. Install Guest Additions
-After installing Ubuntu and booting into the newly set up system, select "Insert Guest Additions CD Image" from the Devices menu in VirtualBox. Run the following commands in the Ubuntu terminal to install Guest Additions:
-```bash
-sudo mkdir -p /mnt/cdrom
-sudo mount /dev/cdrom /mnt/cdrom
-cd /mnt/cdrom
-sudo sh ./VBoxLinuxAdditions.run --nox11
-```
-
-## 8. Reboot the Virtual Machine
+## Reboot the Virtual Machine
 After the Guest Additions are installed, reboot the virtual machine to apply the changes:
 ```bash
 sudo shutdown -r now
@@ -93,7 +80,7 @@ sudo apt install git
 ### Java JDK
 Needed for both Maven and Gradle to compile and run Java code:
 ``` bash
-sudo apt install openjdk-11-jdk
+sudo apt install openjdk-17-jdk
 ```
 
 ### Maven
@@ -157,10 +144,6 @@ Below is a summary of the issues encountered during the project setup and build 
 ### Gradle Build with Stacktrace
 **Command**: `gradle build --stacktrace`  
 **Description**: Runs the Gradle build and provides a stack trace in case of failure, which is useful for diagnosing issues.
-
-### Install webpack via apt (Not Recommended)
-**Command**: `sudo apt install webpack`  
-**Description**: Installs the webpack package using the apt package manager.
 
 ### Install Project Dependencies
 **Command**: `npm install`  
