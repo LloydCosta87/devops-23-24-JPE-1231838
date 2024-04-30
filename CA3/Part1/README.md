@@ -149,37 +149,9 @@ Below is a summary of the issues encountered during the project setup and build 
 **Command**: `gradle build --stacktrace`  
 **Description**: Runs the Gradle build and provides a stack trace in case of failure, which is useful for diagnosing issues.
 
-### Install Project Dependencies
-**Command**: `npm install`  
-**Description**: Installs all the project dependencies defined in package.json into the node_modules directory.
-
-### Execute Webpack with npx
-**Command**: `npx webpack`  
-**Description**: Executes webpack using npx, which runs the webpack binary installed in node_modules of the project.
-
-### Run npm Build Script
-**Command**: `npm run build`  
-**Description**: Runs the build script defined in package.json, which typically invokes webpack with specific configuration.
-
-### Remove node_modules Directory
-**Command**: `rm -rf node_modules`  
-**Description**: Removes the entire node_modules directory, which is a common troubleshooting step to clear out all installed dependencies.
-
-### Clean npm Cache
-**Command**: `npm cache clean --force`  
-**Description**: Forces npm to clean its cache, which can resolve issues with corrupted package data.
-
-### Re-install Dependencies
-**Command**: `npm install`  
-**Description**: Re-installs project dependencies, which is necessary after clearing node_modules.
-
-### Execute Webpack after Re-installation
-**Command**: `npx webpack`  
-**Description**: Executes webpack again after re-installing dependencies to ensure the build process uses the latest package versions.
-
-### Attempt to Run Build Script Again
-**Command**: `npm run build`  
-**Description**: Attempts to run the build script again, which should now work with the reinstalled and updated dependencies.
+### Give permissions in maven and gradle.
+**Command**: `chmod +x mvnw`
+**Command**: `chmod +x gradlew`
 
 ### Execute Gradle Wrapper
 **Command**: `./gradlew build`  
@@ -201,8 +173,8 @@ Below is a summary of the issues encountered during the project setup and build 
 **Command**: `sudo netstat -tulpn | grep :8080`  
 **Description**: Checks which process is listening on port 8080. This is used to identify if the port is already in use and by which process. It's essential for troubleshooting port conflicts.
 
-## Kill Process Causing Port Conflict
-**Command**: `kill -9 8760/java`  
+### If you having conflict, kill the process
+**Command**: `kill -9 8760(PID number)/java`  
 **Description**: Forcibly stops the process with the process ID (PID) 8760 that is listening on port 8080. It's crucial to stop a process that is causing a port conflict. Replace 8760 with the actual PID from your netstat command output.
 
 ## Start Spring Boot Application
