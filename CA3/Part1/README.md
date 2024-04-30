@@ -1,5 +1,9 @@
 # 1) VM Installation Guide
 
+## Download VM
+You can download, for example Oracle VM VirtualBox.
+[VirtualBox Downloads](https://www.virtualbox.org/wiki/Downloads)
+
 ## Create a Host-Only Network
 - Go to **File** -> **Host Network Manager** and create a new host-only network by clicking the create button. This will allow you to name your host-only networks within your VM's network configuration.
 
