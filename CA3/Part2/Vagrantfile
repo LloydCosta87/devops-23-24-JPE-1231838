@@ -68,8 +68,9 @@ Vagrant.configure("2") do |config|
       cd devops-23-24-JPE-1231838/CA2/Part2
       chmod u+x gradlew
       ./gradlew clean build
+      nohup ./gradlew bootRun > /home/vagrant/spring-boot-app.log 2>&1 &
       # To deploy the war file to tomcat9 do the following command:
-      sudo cp ./build/libs/basic-0.0.1-SNAPSHOT.war /var/lib/tomcat9/webapps
+      #sudo cp ./build/libs/basic-0.0.1-SNAPSHOT.war /var/lib/tomcat9/webapps
     SHELL
   end
 end
