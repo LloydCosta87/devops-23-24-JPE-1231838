@@ -7,7 +7,7 @@ This project demonstrates the setup of a virtual environment using Vagrant to ru
 ## Prerequisites
 - [Download and install Vagrant](https://www.vagrantup.com/) for your operating system.
 
-## Update `.gitignore`
+### Update `.gitignore`
 Add the following lines to your `.gitignore` file:
 ```bash
 .vagrant
@@ -20,84 +20,109 @@ git clone https://bitbucket.org/pssmatos/vagrant-multi-spring-tut-demo/
 ```
 ## 3) Copy this Vagrantfile to your repository
 ```bash
-cp -r vagrant-multi-spring-tut-demo/path/to/files C:/Users/Utilizador/Desktop/DevOps/devops-23-24-JPE-1231838/CA3/Part2
+cp -r vagrant-multi-spring-tut-demo/Vagrantfile C/Users/Utilizador/Desktop/DevOps/devops-23-24-JPE-1231838/CA3/Part2
 ```
 
 ## 4) Update the `Vagrantfile`
 Edit the `Vagrantfile` to point to your project repository. Below is the example configuration:
 ```ruby
 Vagrant.configure("2") do |config|
+  # Specify the base VM image
   config.vm.box = "ubuntu/focal64"
   config.ssh.insert_key = false
 
-  # This provision is common for both VMs
+  # Common provision script to set up both VMs
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt-get update -y
     sudo apt-get install -y iputils-ping avahi-daemon libnss-mdns unzip \
         openjdk-17-jdk-headless
-    # ifconfig
   SHELL
 
   #============
-  # Configurations specific to the database VM
+  # Configuration for the database VM
   config.vm.define "db" do |db|
     db.vm.box = "ubuntu/focal64"
     db.vm.hostname = "db"
     db.vm.network "private_network", ip: "192.168.56.11"
 
-    # We want to access H2 console from the host using port 8082
-    # We want to connet to the H2 server using port 9092
+    # Forward ports for H2 console and server access
     db.vm.network "forwarded_port", guest: 8082, host: 8082
     db.vm.network "forwarded_port", guest: 9092, host: 9092
 
-    # We need to download H2
+    # Download H2 database JAR file
     db.vm.provision "shell", inline: <<-SHELL
       wget https://repo1.maven.org/maven2/com/h2database/h2/1.4.200/h2-1.4.200.jar
     SHELL
 
-    # The following provision shell will run ALWAYS so that we can execute the H2 server process
-    # This could be done in a different way, for instance, setting H2 as as service, like in the following link:
-    # How to setup java as a service in ubuntu: http://www.jcgonzalez.com/ubuntu-16-java-service-wrapper-example
-    #
-    # To connect to H2 use: jdbc:h2:tcp://192.168.33.11:9092/./jpadb
+    # Run the H2 server, ensuring it always runs
     db.vm.provision "shell", :run => 'always', inline: <<-SHELL
       java -cp ./h2*.jar org.h2.tools.Server -web -webAllowOthers -tcp -tcpAllowOthers -ifNotExists > ~/out.txt &
     SHELL
   end
 
   #============
-  # Configurations specific to the webserver VM
+  # Configuration for the web server VM
   config.vm.define "web" do |web|
     web.vm.box = "ubuntu/focal64"
     web.vm.hostname = "web"
     web.vm.network "private_network", ip: "192.168.56.10"
 
-    # We set more ram memmory for this VM
     web.vm.provider "virtualbox" do |v|
-      v.memory = 1024
+      # Set VM resources for memory and CPUs
+      v.memory = 2048
+      v.cpus = 2
     end
 
-    # We want to access tomcat from the host using port 8080
+    # Forward port for accessing the web application
     web.vm.network "forwarded_port", guest: 8080, host: 8080
 
-    web.vm.provision "shell", inline: <<-SHELL, privileged: false
-      # sudo apt-get install git -y
-      # sudo apt-get install nodejs -y
-      # sudo apt-get install npm -y
-      # sudo ln -s /usr/bin/nodejs /usr/bin/node
-      sudo apt install -y tomcat9 tomcat9-admin
-      # If you want to access Tomcat admin web page do the following:
-      # Edit /etc/tomcat9/tomcat-users.xml
-      # uncomment tomcat-users and add manager-gui to tomcat user
+    # Provisioning script for setting up the web server
+    web.vm.provision "shell", inline: <<-SHELL
+      sudo apt-get update -y
+      sudo apt-get install -y curl
 
-      # Change the following command to clone your own repository!
-      git clone https://github.com/LloydCosta87/devops-23-24-JPE-1231838.git
-      cd devops-23-24-JPE-1231838/CA2/Part2/react-and-spring-data-rest-basic
-      chmod u+x gradlew
-      ./gradlew clean build
-      nohup ./gradlew bootRun > /home/vagrant/spring-boot-app.log 2>&1 &
-      # To deploy the war file to tomcat9 do the following command:
-      # sudo cp ./build/libs/basic-0.0.1-SNAPSHOT.war /var/lib/tomcat9/webapps
+      # Install Node.js via nodesource setup script
+      curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+      sudo apt-get install -y nodejs
+
+      # Clean npm cache
+      sudo npm cache clean --force
+
+      # Install Webpack globally (optional)
+      sudo npm install -g webpack webpack-cli
+
+      # Switch to the vagrant user to perform npm installs and Gradle build
+      sudo -u vagrant -H bash -c "
+        # Navigate to the vagrant home directory
+        cd /home/vagrant
+
+        # Clone the GitHub repository containing the application
+        git clone https://github.com/LloydCosta87/devops-23-24-JPE-1231838.git
+
+        # Change to the project directory
+        cd devops-23-24-JPE-1231838/CA2/Part2/react-and-spring-data-rest-basic
+
+        # Remove node_modules to ensure a clean state
+        rm -rf node_modules
+
+        # Install project dependencies using npm
+        npm install
+
+        # Run Webpack using npx to compile the JavaScript files
+        npx webpack --config webpack.config.js
+
+        # Ensure the Gradle wrapper is executable
+        chmod +x gradlew
+
+        # Execute the npm build script
+        npm run build
+
+        # Build the project using Gradle and provide a stack trace on error
+        ./gradlew build --stacktrace
+
+        # Run the Spring Boot application in the background and log output to a file
+        nohup ./gradlew bootRun > /home/vagrant/spring-boot-app.log 2>&1 &
+      "
     SHELL
   end
 end
@@ -106,7 +131,7 @@ end
 ## 5) Set Up the Virtual Machines
 1. **Navigate to the Project Directory**:
    ```bash
-   cd C:/Users/Utilizador/Desktop/DevOps/devops-23-24-JPE-1231838/CA3/Part2
+   cd devops-23-24-JPE-1231838/CA3/Part2
    ```
 2. **Start Vagrant**:
    ```bash
@@ -116,22 +141,16 @@ end
    ```bash
    vagrant status
    ```
-4. **Access Virtual Machines**:
-   -DB VM:
-   ```bash
-    vagrant ssh db
-     ```
-   This acess to te VM of bd
-   
-   - Web VM:
-     ```bash
-     vagrant ssh web
-     ```
   
-     **Important Note:** You need to have the Virtual box open, otherwise you can't run Vagrant
+**Important Note:** You need to have the Virtual box open, otherwise you can't run Vagrant
      
-  5. **Connect spring-boot to H2**
-* On src/main/resources/application.properties add the following lines
+##  6) **Connect spring-boot to H2**
+* On
+ ```
+  src/main/resources/application.properties
+```
+
+add the following lines
 ```
 server.servlet.context-path=/basic-0.0.1-SNAPSHOT
 spring.data.rest.base-path=/api
@@ -174,10 +193,94 @@ client({method: 'GET', path: '/basic-0.0.1-SNAPSHOT/api/employees'}).done(respon
 
 The Employe table should appear like the image above
 
+**The Local Host shoul look like this**
+![localHost8080](https://github.com/LloydCosta87/devops-23-24-JPE-1231838/assets/147655195/17f335cd-7216-4c63-9076-564291a0549a)
+
+
+### Other commands of Vagrant
+
+1. **`vagrant init`**:
+   - Initializes a new Vagrant environment by creating a `Vagrantfile` in the current directory.
+   - Usage: `vagrant init`
+
+2. **`vagrant up`**:
+   - Starts and provisions the VMs as defined in the `Vagrantfile`.
+   - Usage: `vagrant up`
+
+3. **`vagrant halt`**:
+   - Stops the running VMs.
+   - Usage: `vagrant halt`
+
+4. **`vagrant suspend`**:
+   - Suspends the running VMs, saving their state to be resumed later.
+   - Usage: `vagrant suspend`
+
+5. **`vagrant resume`**:
+   - Resumes the VMs from a suspended state.
+   - Usage: `vagrant resume`
+
+6. **`vagrant reload`**:
+   - Restarts the VMs and re-provisions them, applying any changes in the `Vagrantfile`.
+   - Usage: `vagrant reload`
+
+7. **`vagrant provision`**:
+   - Runs the provisioners on the VMs without restarting them.
+   - Usage: `vagrant provision`
+
+8. **`vagrant ssh`**:
+   - Logs into a running VM via SSH.
+   - Usage: `vagrant ssh [vm-name]`
+
+9. **`vagrant status`**:
+   - Displays the status of the VMs defined in the `Vagrantfile`.
+   - Usage: `vagrant status`
+
+10. **`vagrant destroy`**:
+    - Stops and removes the VMs defined in the `Vagrantfile`.
+    - Usage: `vagrant destroy [vm-name]`
+
+11. **`vagrant box`**:
+    - Manages Vagrant box resources (list, add, remove, etc.).
+    - Usage: `vagrant box <command>`
+
+12. **`vagrant global-status`**:
+    - Lists all active Vagrant environments across different directories.
+    - Usage: `vagrant global-status`
 
      
-## 7) Tag the repo
- ```bash
-git tag ca3-part2
-git push origin ca3-part2
+## Alternative technological solution for the virtualization tool
+
+I choosed 
 ```
+VMware Workstation Player
+```
+
+- **Ease of Use**: VirtualBox is generally considered more user-friendly due to its simpler interface. VMware Workstation Player offers a polished UI but with fewer features.
+- **Performance**: VMware Workstation Player is generally considered to have better performance, especially in graphics and CPU-intensive applications.
+- **Networking Features**: VMware provides more advanced networking features out of the box.
+- **Cross-Platform**: VirtualBox is the better choice for cross-platform compatibility due to its macOS support.
+
+## Using VMware Workstation Player with Vagrant
+
+To use VMware Workstation Player as a hypervisor with Vagrant, follow these steps:
+
+### Installation
+
+1. Download and install VMware Workstation Player.
+2. Install the Vagrant VMware provider plugin with:
+    ```bash
+    vagrant plugin install vagrant-vmware-desktop
+    ```
+
+### Configuration in Vagrant
+
+Update the `Vagrantfile` to specify VMware as the provider:
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.vm.box = "generic/ubuntu2004"  # Update to the box that supports VMware
+  config.vm.provider "vmware_desktop" do |vmware|
+    vmware.gui = true  # Optional: enables GUI mode for the VM
+  end
+end
+
