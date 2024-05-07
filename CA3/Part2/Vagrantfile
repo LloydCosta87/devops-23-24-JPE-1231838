@@ -63,38 +63,33 @@ Vagrant.configure("2") do |config|
       # Install Webpack globally (optional)
       sudo npm install -g webpack webpack-cli
 
-      # Switch to the vagrant user to perform npm installs and Gradle build
-      sudo -u vagrant -H bash -c "
-        # Navigate to the vagrant home directory
-        cd /home/vagrant
+      # Clone the GitHub repository containing the application
+      git clone https://github.com/LloydCosta87/devops-23-24-JPE-1231838.git
 
-        # Clone the GitHub repository containing the application
-        git clone https://github.com/LloydCosta87/devops-23-24-JPE-1231838.git
+      # Change to the project directory
+      cd devops-23-24-JPE-1231838/CA2/Part2/react-and-spring-data-rest-basic
 
-        # Change to the project directory
-        cd devops-23-24-JPE-1231838/CA2/Part2/react-and-spring-data-rest-basic
+      # Remove node_modules to ensure a clean state
+      rm -rf node_modules
 
-        # Remove node_modules to ensure a clean state
-        rm -rf node_modules
+      # Install project dependencies using npm
+      npm install
 
-        # Install project dependencies using npm
-        npm install
+      # Run Webpack using npx to compile the JavaScript files
+      npx webpack --config webpack.config.js
 
-        # Run Webpack using npx to compile the JavaScript files
-        npx webpack --config webpack.config.js
+      # Ensure the Gradle wrapper is executable
+      chmod +x gradlew
 
-        # Ensure the Gradle wrapper is executable
-        chmod +x gradlew
+      # Execute the npm build script
+      npm run build
 
-        # Execute the npm build script
-        npm run build
+      # Build the project using Gradle and provide a stack trace on error
+      ./gradlew build --stacktrace
 
-        # Build the project using Gradle and provide a stack trace on error
-        ./gradlew build --stacktrace
+      # Run the Spring Boot application in the background and log output to a file
+      nohup ./gradlew bootRun > /home/vagrant/spring-boot-app.log 2>&1 &
 
-        # Run the Spring Boot application in the background and log output to a file
-        nohup ./gradlew bootRun > /home/vagrant/spring-boot-app.log 2>&1 &
-      "
     SHELL
   end
 end

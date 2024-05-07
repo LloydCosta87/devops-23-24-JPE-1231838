@@ -68,10 +68,6 @@ Vagrant.configure("2") do |config|
       # Install Webpack globally (optional)
       sudo npm install -g webpack webpack-cli
 
-      # Switch to the vagrant user to perform npm installs and Gradle build
-      sudo -u vagrant -H bash -c "
-        # Navigate to the vagrant home directory
-        cd /home/vagrant
 
         # Clone the GitHub repository containing the application
         git clone https://github.com/LloydCosta87/devops-23-24-JPE-1231838.git
@@ -99,7 +95,7 @@ Vagrant.configure("2") do |config|
 
         # Run the Spring Boot application in the background and log output to a file
         nohup ./gradlew bootRun > /home/vagrant/spring-boot-app.log 2>&1 &
-      "
+
     SHELL
   end
 end
