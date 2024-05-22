@@ -1,6 +1,5 @@
 # Use a Gradle image with JDK 17 to build the application
-FROM gradle:jdk17 as builder
-LABEL author="Lloyd"
+FROM gradle:jdk17 AS builder
 
 # Set the working directory for the build
 WORKDIR /CA4/Part1
