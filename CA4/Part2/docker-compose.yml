@@ -11,8 +11,7 @@ services:
     ports:
       - "9092:9092"
       - "8082:8082"
-    environment:
-      - H2_OPTIONS=-tcpAllowOthers -ifNotExists
+
 
   web:
     image: lloydcosta/chatserver/web
@@ -23,11 +22,6 @@ services:
       - "8080:8080"
     depends_on:
       - db
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:h2:tcp://db:9092/./jpadb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-      - SPRING_DATASOURCE_USERNAME=sa
-      - SPRING_DATASOURCE_PASSWORD=
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 
 volumes:
   db_data:

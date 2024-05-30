@@ -15,9 +15,9 @@ The H2 database is downloaded and started in the container. The database is expo
 FROM gradle:jdk17
 
 RUN apt-get update && \
-    apt-get install -y openjdk-17-jdk-headless && \
-    apt-get install unzip -y && \
-    apt-get install wget -y
+  apt-get install -y openjdk-17-jdk-headless && \
+  apt-get install unzip -y && \
+  apt-get install wget -y
 
 RUN mkdir -p /usr/src/app
 
@@ -30,7 +30,8 @@ EXPOSE 8082
 EXPOSE 9092
 
 # Start H2 Server
-CMD java -cp /opt/h2.jar org.h2.tools.Server -web -webAllowOthers -tcp -tcpAllowOthers -ifNotExists
+CMD ["java", "-cp", "/opt/h2.jar", "org.h2.tools.Server", "-tcp", "-tcpAllowOthers", "-tcpPort", "9092", "-web", "-webAllowOthers", "-webPort", "8082", "-ifNotExists"]
+
 ```
 ### Dockerfile for `web` Container
 
@@ -38,15 +39,14 @@ This Dockerfile sets up the Tomcat server and deploys the Spring application. Sh
 The Spring application JAR file is copied to the container, and the application is started on port 8080.
 
 ```Dockerfile
-# Use the official Gradle image with JDK 17
+# Use the official Tomcat image
 FROM gradle:jdk17
 
-# Copy the JAR file to the container
+# Copy the WAR file to the webapps directory
 COPY react-and-spring-data-rest-basic-0.0.1-SNAPSHOT.jar .
 
 EXPOSE 8080
 
-# Start the Spring application
 CMD ["java", "-jar", "react-and-spring-data-rest-basic-0.0.1-SNAPSHOT.jar"]
 ```
 ### Docker Compose Configuration
@@ -57,36 +57,32 @@ The `web` service depends on the `db` service and sets the environment variables
 ```yaml
 version: '3'
 services:
-  db:
-    image: lloydcosta/chatserver/db
-    build:
-      context: ./db
-      dockerfile: Dockerfile
-    volumes:
-      - db_data:/opt/h2/data
-    ports:
-      - "9092:9092"
-      - "8082:8082"
-    environment:
-      - H2_OPTIONS=-tcpAllowOthers -ifNotExists
 
-  web:
-    image: lloydcosta/chatserver/web
-    build:
-      context: ./web
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:h2:tcp://db:9092/./jpadb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-      - SPRING_DATASOURCE_USERNAME=sa
-      - SPRING_DATASOURCE_PASSWORD=
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+   db:
+      image: lloydcosta/chatserver/db
+      build:
+         context: ./db
+         dockerfile: Dockerfile
+      volumes:
+         - db_data:/opt/h2/data
+      ports:
+         - "9092:9092"
+         - "8082:8082"
+
+
+   web:
+      image: lloydcosta/chatserver/web
+      build:
+         context: ./web
+         dockerfile: Dockerfile
+      ports:
+         - "8080:8080"
+      depends_on:
+         - db
 
 volumes:
-  db_data:
+   db_data:
+
 ```
 
 ### Instructions to Build and Run the Docker Image
@@ -109,8 +105,9 @@ volumes:
    
 3. **Access the Application**
 
-    Open a web browser and navigate to `http://localhost:8080` to access the Spring application.
-    You can also access the H2 database console at `http://localhost:8082` with the JDBC URL `jdbc:h2:tcp://localhost:9092/./jpadb`.
+    Open a web browser and navigate to `http://localhost:8080/basic-0.0.1-SNAPSHOT/` to access the Spring application.
+    You can also access the H2 database console at `http://localhost:8082` and connect to the database `jpadb
+   ` with the JDBC URL `jdbc:h2:tcp://db:9092/~/jpadb`.
 
 ### Publishing the Docker Images to Docker Hub
 
