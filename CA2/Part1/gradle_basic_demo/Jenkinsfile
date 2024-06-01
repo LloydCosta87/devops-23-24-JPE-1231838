@@ -9,16 +9,18 @@ pipeline {
         }
         stage('Assemble') {
             steps {
-                powershell './gradlew.bat assemble'
+                bat './gradlew.bat assemble'
             }
         }
         stage('Test') {
             steps {
-                powershell './gradlew.bat test'
+                bat './gradlew.bat test'
+
             }
             post {
                 always {
-                    junit '**/build/test-results/test/*.xml'
+
+                    junit 'build/test-results/test/*.xml'
                 }
             }
         }
