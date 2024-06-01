@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        PATH = "${env.PATH}:C:\\Program Files\\Git\\bin"
+        PATH = "${env.PATH};C:\\Program Files\\Git\\bin"
     }
 
     stages {
@@ -13,12 +13,12 @@ pipeline {
         }
         stage('Assemble') {
             steps {
-                sh './gradlew assemble'
+                sh 'bash -c "./gradlew assemble"'
             }
         }
         stage('Test') {
             steps {
-                sh './gradlew test'
+                sh 'bash -c "./gradlew test"'
             }
             post {
                 always {
