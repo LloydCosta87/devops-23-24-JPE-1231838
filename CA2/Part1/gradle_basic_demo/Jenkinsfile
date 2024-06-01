@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh './gradlew test'
+                sh 'bash -c "./gradlew test"'
             }
             post {
                 success {
@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Assemble') {
             steps {
-                sh './gradlew assemble'
+                sh 'bash -c "./gradlew assemble"'
             }
             post {
                 success {
