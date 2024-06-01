@@ -1,4 +1,5 @@
 plugins {
+    id 'java'
     id 'application'
     id "org.siouan.frontend-jdk17" version "8.0.0"
 }
@@ -9,14 +10,18 @@ repositories {
 
 dependencies {
     // Log4J for logging
-    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.2'
-    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
+    implementation 'org.apache.logging.log4j:log4j-api:2.11.2'
+    implementation 'org.apache.logging.log4j:log4j-core:2.11.2'
 
-    // JUnit for testing
-    testImplementation 'junit:junit:4.12'
+    // JUnit 5 for testing
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }
 
-mainClassName = 'basic_demo.App'
+application {
+    mainClassName = 'basic_demo.App'
+}
+
 description = "A trivial Gradle build"
 version = "0.1.0"
 
@@ -34,7 +39,7 @@ task runClient(type: JavaExec, dependsOn: classes) {
     group = "DevOps"
     description = "Launches a chat client that connects to a server on localhost:59001"
     classpath = sourceSets.main.runtimeClasspath
-    mainClass = 'basic_demo.ChatClientApp'
+    mainClass.set('basic_demo.ChatClientApp')
     args 'localhost', '59001'
 }
 
@@ -46,21 +51,28 @@ task runServer(type: JavaExec) {
 
 task backupSources(type: Copy) {
     description = 'Backs up the source files to a backup directory.'
-    from 'src' // specifies the source directory to copy from
-    into 'backup' // specifies the destination directory to copy to
+    from 'src'
+    into 'backup'
 }
 
 task zipSources(type: Zip) {
     description = 'Archives the source files into a zip file.'
-    archiveBaseName.set('application-sources') // Sets the base name of the archive
-    destinationDirectory.set(file("$buildDir/archives")) // Sets the destination directory for the zip
-
-    from 'src' // Specifies the source directory to include in the zip
+    archiveBaseName.set('application-sources')
+    destinationDirectory.set(file("$buildDir/archives"))
+    from 'src'
 }
 
 frontend {
-     nodeVersion = "16.20.2"
-     assembleScript = "run build"
+    nodeVersion = "16.20.2"
+    assembleScript = "run build"
     cleanScript = "run clean"
-     checkScript = "run check"
+    checkScript = "run check"
+}
+
+test {
+    useJUnitPlatform()
+    reports {
+        junitXml.required.set(true)
+        html.required.set(true)
     }
+}
