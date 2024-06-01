@@ -21,10 +21,10 @@ pipeline {
             steps {
                 powershell './gradlew.bat assemble'
             }
-            post {
-                success {
-                    archiveArtifacts artifacts: '**/build/libs/*.jar', allowEmptyArchive: true
-                }
+        }
+        stage('Archive') {
+            steps {
+                archiveArtifacts artifacts: '**/build/libs/*.jar', allowEmptyArchive: true
             }
         }
     }
