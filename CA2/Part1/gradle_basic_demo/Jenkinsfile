@@ -7,21 +7,22 @@ pipeline {
                 git 'https://github.com/LloydCosta87/devops-23-24-JPE-1231838.git'
             }
         }
+        stage('Assemble') {
+                    steps {
+                        sh './gradlew assemble'
+                    }
+                }
         stage('Test') {
             steps {
-                powershell './gradlew.bat test'
+                sh './gradlew test'
             }
             post {
-                success {
+                always {
                     junit '**/build/test-results/test/*.xml'
                 }
             }
         }
-        stage('Assemble') {
-            steps {
-                powershell './gradlew.bat assemble'
-            }
-        }
+
         stage('Archive') {
             steps {
                 archiveArtifacts artifacts: '**/build/libs/*.jar', allowEmptyArchive: true
