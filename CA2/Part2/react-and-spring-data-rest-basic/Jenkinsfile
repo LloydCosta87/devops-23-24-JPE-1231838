@@ -1,0 +1,55 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/LloydCosta87/devops-23-24-JPE-1231838.git'
+            }
+        }
+        stage('Test') {
+                    steps {
+                        sh './gradlew test'
+                    }
+                    post {
+                        success {
+                            junit '**/build/test-results/test/*.xml'
+                        }
+                    }
+                }
+        stage('Assemble') {
+            steps {
+                sh './gradlew assemble'
+            }
+            post {
+                success {
+                    archiveArtifacts artifacts: '**/build/libs/*.jar', allowEmptyArchive: true
+                }
+            }
+        }
+
+        stage('Javadoc') {
+            steps {
+                sh './gradlew javadoc'
+                publishHTML target: [
+                    reportDir: 'build/docs/javadoc',
+                    reportFiles: 'index.html',
+                    reportName: 'Javadoc'
+                ]
+            }
+        }
+        stage('Archive') {
+            steps {
+                archiveArtifacts artifacts: '**/build/libs/*.war', allowEmptyArchive: true
+            }
+        }
+        stage('Publish Image') {
+            steps {
+                script {
+                    docker.build("lloydcosta/react-and-spring-data:${env.BUILD_ID}")
+                          .push("latest")
+                }
+            }
+        }
+    }
+}
