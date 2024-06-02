@@ -35,14 +35,19 @@ dependencies {
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+    useTestNG()
 }
 
 test {
-    useTestNG()
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
     reports {
         junitXml.required.set(true)
+        junitXml.outputLocation.set(file("$buildDir/test-results/test"))
         html.required.set(true)
+        html.outputLocation.set(file("$buildDir/reports/tests"))
     }
 }
 
