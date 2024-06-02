@@ -1,14 +1,8 @@
-# Use uma imagem base com OpenJDK
-FROM openjdk:17-jdk-alpine
+# Use a imagem base do OpenJDK
+FROM openjdk:17-jdk-slim
 
-# Define o diretório de trabalho dentro do container
-WORKDIR /app
+# Adicione o arquivo WAR da sua aplicação
+ADD build/libs/react-and-spring-data-rest-basic.war /app.war
 
-# Copia o arquivo WAR gerado para o diretório de trabalho no container
-COPY build/libs/*.war app.war
-
-# Expõe a porta que a aplicação irá rodar
-EXPOSE 8080
-
-# Comando para rodar a aplicação Spring Boot
-ENTRYPOINT ["java", "-jar", "app.war"]
+# Comando para executar a aplicação
+ENTRYPOINT ["java", "-jar", "/app.war"]
