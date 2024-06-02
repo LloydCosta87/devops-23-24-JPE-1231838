@@ -1,8 +1,8 @@
-# Use a imagem base do OpenJDK
+# Use the OpenJDK base image
 FROM openjdk:17-jdk-slim
 
-# Adicione o arquivo WAR da sua aplicação
-ADD build/libs/react-and-spring-data-rest-basic.war /app.war
+# Add the WAR file to the container
+ADD build/libs/react-and-spring-data-rest-basic-0.0.1-SNAPSHOT.war /app.war
 
-# Comando para executar a aplicação
+# Command to run the application
 ENTRYPOINT ["java", "-jar", "/app.war"]
