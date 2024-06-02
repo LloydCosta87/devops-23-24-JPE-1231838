@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.4'
     id 'io.spring.dependency-management' version '1.1.4'
+    id 'war' // Adicionado para gerar o arquivo .war
     id "org.siouan.frontend-jdk17" version "8.0.0"
 }
 
@@ -20,6 +21,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat' // Necessário para gerar o arquivo .war
     runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
@@ -72,3 +74,8 @@ task cleanWebpack(type: Delete) {
 }
 
 clean.dependsOn cleanWebpack
+
+// Configuração do Spring Boot para criar um arquivo .war
+bootWar {
+    mainClass = 'com.greglturnquist.payroll.ReactAndSpringDataRestApplication'
+}
