@@ -34,12 +34,11 @@ dependencies {
     testImplementation 'org.testng:testng:7.7.0'
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
-}
-
 test {
-    useTestNG()
+    useJUnit()
+    testLogging {
+        events "PASSED", "SKIPPED", "FAILED"
+    }
 }
 
 frontend {
@@ -47,7 +46,6 @@ frontend {
     assembleScript = "run build"
     cleanScript = "run clean"
     checkScript = "run check"
-
 }
 
 task copyJarToDist(type: Copy) {
@@ -64,4 +62,3 @@ task cleanWebpack(type: Delete) {
 }
 
 clean.dependsOn cleanWebpack
-
