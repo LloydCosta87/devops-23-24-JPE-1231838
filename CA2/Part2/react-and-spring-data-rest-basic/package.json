@@ -28,6 +28,7 @@
   "scripts": {
     "webpack": "webpack",
     "build": "npm run webpack",
+    "build:webpack": "webpack --config webpack.config.js",
     "check": "echo Checking frontend",
     "clean": "echo Cleaning frontend",
     "lint": "echo Linting frontend",
