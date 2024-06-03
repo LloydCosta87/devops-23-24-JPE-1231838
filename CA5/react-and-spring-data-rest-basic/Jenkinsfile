@@ -1,0 +1,95 @@
+pipeline {
+    agent any
+
+    environment {
+        registry = 'lloydcosta/react-and-spring-data'
+        registryCredential = 'dockerhub_credentials'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/LloydCosta87/devops-23-24-JPE-1231838.git', branch: 'main'
+            }
+        }
+        stage('Clean Node Modules') {
+            steps {
+                dir('CA2/Part2/react-and-spring-data-rest-basic') {
+                    bat 'rmdir /s /q node_modules || exit 0'
+                }
+            }
+        }
+        stage('Install Node.js Dependencies') {
+            steps {
+                dir('CA2/Part2/react-and-spring-data-rest-basic') {
+                    bat 'npm install --unsafe-perm'
+                }
+            }
+        }
+        stage('Run Webpack') {
+            steps {
+                dir('CA2/Part2/react-and-spring-data-rest-basic') {
+                    bat 'npx webpack --config webpack.config.js'
+                }
+            }
+        }
+        stage('Assemble') {
+            steps {
+                dir('CA2/Part2/react-and-spring-data-rest-basic') {
+                    bat './gradlew assemble'
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                dir('CA2/Part2/react-and-spring-data-rest-basic') {
+                    bat './gradlew test'
+                }
+            }
+            post {
+                always {
+                    junit 'CA2/Part2/react-and-spring-data-rest-basic/build/test-results/test/*.xml'
+                }
+            }
+        }
+        stage('Javadoc') {
+            steps {
+                dir('CA2/Part2/react-and-spring-data-rest-basic') {
+                    bat './gradlew javadoc'
+                }
+            }
+            post {
+                always {
+                    publishHTML(target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'CA2/Part2/react-and-spring-data-rest-basic/build/docs/javadoc',
+                        reportFiles: 'index.html',
+                        reportName: 'Javadoc'
+                    ])
+                }
+            }
+        }
+        stage('Archive') {
+            steps {
+                dir('CA2/Part2/react-and-spring-data-rest-basic') {
+                    archiveArtifacts artifacts: 'build/libs/*.war', fingerprint: true
+                }
+            }
+        }
+        stage('Build Image') {
+            steps {
+                dir('CA2/Part2/react-and-spring-data-rest-basic') {
+                    script {
+                        def dockerImage = "${env.registry}:${env.BUILD_NUMBER}"
+                        withCredentials([usernamePassword(credentialsId: "${env.registryCredential}", passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                            bat 'echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin'
+                            bat "docker build -t ${dockerImage} ."
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
