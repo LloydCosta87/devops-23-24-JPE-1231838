@@ -217,6 +217,20 @@ pipeline {
                 }
             }
         }
+       stage('Publish Image') {
+          steps {
+             echo 'Building and pushing Docker image...'
+             dir('CA2/Part2/react-and-spring-data-rest-basic') {
+                script {
+                   def appImage = docker.build("lloydcosta/react-and-spring-data:${env.BUILD_NUMBER}", '-H tcp://localhost:2375')
+                   docker.withRegistry('https://registry.hub.docker.com', "${registryCredential}") {
+                      appImage.push()
+                      echo "Building image with tag: lloydcosta/react-and-spring-data:${env.BUILD_NUMBER}"
+                   }
+                }
+             }
+          }
+       }
     }
 }
 ```
@@ -227,6 +241,9 @@ pipeline {
 docker run -p 8080:8080 lloydcosta/react-and-spring-data-rest-basic
 ```
 
+### 4. Accessing the Application
+
+Open a web browser and navigate to `localhost:8080/basic-0.0.1-SNAPSHOT` to access the application.
 
 
 
