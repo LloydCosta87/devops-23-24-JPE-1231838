@@ -235,7 +235,7 @@ pipeline {
 }
 ```
 
-### 3. Building the Docker Image
+### 3. Running the Docker Image
 
 ```bash
 docker run -p 8080:8080 lloydcosta/react-and-spring-data-rest-basic
