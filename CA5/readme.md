@@ -37,7 +37,7 @@ jenkins/jenkins:lts-jdk11
 8. Enter the repository URL.
 9. Click "Save" to save the pipeline configuration.
 
-### Jenkinsfile (Pipeline Script)
+### Jenkinsfile (Pipeline Script) for gradle basic demo Project
 
 The Jenkinsfile contains the pipeline script that defines the stages and steps for the pipeline. The script is written in Groovy and is stored in the root directory of the project.
 
